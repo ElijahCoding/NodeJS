@@ -7,13 +7,24 @@ const getNotes = function () {
 const addNote = function (title, body) {
     const notes = loadNotes()
 
-    notes.push({
-        title,
-        body
+    const duplicateNotes = notes.filter(function (note) {
+        return note.title === title
     })
-    console.log(notes);
+
+    if (duplicateNotes.length === 0) {
+        notes.push({
+            title,
+            body
+        })
+        
+        saveNotes(notes)
+    }
 }
 
+const saveNotes = function (notes) {
+    const dataJSON = JSON.stringify(notes)
+    fs.writeFileSync('notes.json', dataJSON)
+}
 
 const loadNotes = function () {
     try {
