@@ -4,19 +4,9 @@ const path = require('path')
 const app = express()
 const publicDirectoryPath = path.join(__dirname, '../public')
 
+app.set('view engine', 'hbs')
 app.use(express.static(publicDirectoryPath))
 
-
-app.get('/help', (req, res) => {
-    res.send('help page')
-})
-
-app.get('/about', (req, res) => {
-    res.send('about page')
-})
-
-app.get('/weather', (req, res) => {
-    res.send('weather page')
-})
+app.get('/', (req, res) => res.render('index'))
 
 app.listen(3000, () => console.log('Server is up'))
