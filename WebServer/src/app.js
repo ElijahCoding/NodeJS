@@ -35,8 +35,12 @@ app.get('/help', (req, res) => {
     })
 })
 
-app.get('/help/*', (req, res) => res.send('Help 404'))
-
-app.get('*', (req, res) => res.send('404'))
+app.get('*', (req, res) => {
+    res.render('404', {
+        title: '404',
+        name: 'Elijah',
+        errorMessage: 'Page not found'
+    })
+})
 
 app.listen(3000, () => console.log('Server is up'))
