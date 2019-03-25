@@ -7,10 +7,16 @@ mongoose.connect('mongodb://localhost:27017/task-app-api', {
 
 const Task = mongoose.model('Task', {
     description: {
-        type: String
+        type: String,
+        required: true
     },
     completed: {
-        type: Boolean
+        type: Boolean,
+        validate (value) {
+            if (value < 0) {
+                throw new Error('Age must be a positive number')
+            }
+        }
     }
 })
 
