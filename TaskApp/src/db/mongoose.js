@@ -1,32 +1,49 @@
 const mongoose = require('mongoose')
+const validator = require('validator')
 
 mongoose.connect('mongodb://localhost:27017/task-app-api', {
     useNewUrlParser: true,
     useCreateIndex: true
 })
 
-const Task = mongoose.model('Task', {
-    description: {
+const User = mongoose.model('User', {
+    name: {
         type: String,
-        required: true
+        required: true,
+        trim: true
     },
-    completed: {
-        type: Boolean,
+
+    email: {
+        type: String,
+        required: true,
+        trim: true,
+        lowercase: true,
+        validate (value) {
+            if (!validator.isEmail(value)) {
+                throw new Error('Email is invalid')
+            }
+        }
+    },
+
+    password: {
+        type: String,
+        required: true,
+        minlength: 7,
+        trim: true,
+        validate (value) {
+            if (value.toLowerCase().includes('password')) {
+                throw new Error('Password cannot contain "password"')
+            }
+        }
+    },
+
+    age: {
+        type: Number,
+        default: 0,
         validate (value) {
             if (value < 0) {
-                throw new Error('Age must be a positive number')
+                 throw new Error('Age must be a postive number')
             }
         }
     }
-})
-
-const task = new Task({
-    description: 'Task One',
-    completed: false
-})
-
-task.save().then(response => {
-    console.log(response);
-}).catch(error => {
-    console.log(error);
 })
