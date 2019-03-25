@@ -1,9 +1,11 @@
 const mongodb = require('mongodb')
-const MongoClient = mongodb.MongoClient
-const ObjectID = mongodb.ObjectID
+
+const { MongoClient, ObjectID } = require('mongodb')
 
 const url = 'mongodb://localhost:27017'
 const database = 'task-app'
+
+const id = new ObjectID()
 
 MongoClient.connect(url, { useNewUrlParser: true }, (error, client) => {
     if (error) {
@@ -13,24 +15,4 @@ MongoClient.connect(url, { useNewUrlParser: true }, (error, client) => {
     console.log("Connected successfully to server");
 
     const db = client.db(database);
-
-    db.collection('tasks').insertMany([
-        {
-            description: 'task one',
-            completed: true
-        },
-        {
-            description: 'task two',
-            completed: false
-        },
-        {
-            description: 'task three',
-            completed: true
-        }
-    ], (error, result) => {
-        if (error) {
-            console.log(error);
-        }
-        console.log(result.ops);
-    })
 });
