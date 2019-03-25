@@ -77,6 +77,11 @@ userSchema.methods.generateAuthToken = async function () {
     return token
 }
 
+userSchema.methods.getPublicProfile = function () {
+    const user = this
+    const userObject = user.toObject()
+}
+
 userSchema.statics.findByCredentials = async (email, password) => {
     const user = await User.findOne({ email })
 
@@ -92,6 +97,16 @@ userSchema.statics.findByCredentials = async (email, password) => {
 
     return user
 }
+
+userSchema.pre('save', async function (next) {
+    const user = this
+
+    if (user.isModified('password')) {
+        user.password = await bcrypt.hash(user.password, 8)
+    }
+
+    next()
+})
 
 const User = mongoose.model('User', userSchema)
 
