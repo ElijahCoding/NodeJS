@@ -100,8 +100,8 @@ const upload = multer({
         fileSize: 1000000
     },
     fileFilter (req, file, cb) {
-        if (!file.originalname.match(/\.(doc|docx)$/)) {
-            return cb(new Error('Pleas upload a document'))
+        if (!file.originalname.match(/\.(jpg|jpeg|png)$/)) {
+            return cb(new Error('Pleas upload an image'))
         }
         cb(undefined, true)
     }
@@ -109,6 +109,8 @@ const upload = multer({
 
 router.post('/users/me/upload', upload.single('avatar'), (req, res) => {
     res.send()
+}, (error, req, res, next) => {
+    res.status(400).send({ error: error.message })
 })
 
 module.exports = router
