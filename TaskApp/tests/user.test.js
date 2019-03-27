@@ -1,7 +1,7 @@
 const request = require('supertest')
 const app = require('../src/app')
 const User = require('../src/models/user')
-const { userOneId, userOne, setupDatabase } = require('./fixures/db')
+const { userOneId, userOne, setupDatabase } = require('./fixtures/db')
 
 beforeEach(setupDatabase)
 
@@ -75,7 +75,7 @@ test('Should not delete account for unauthenticated user', async () => {
 test('Should upload avatar image', async () => {
     await request(app).post('/users/me/avatar')
                       .set('Authorization', `Bearer ${userOne.tokens[0].token}`)
-                      .attach('avatar', 'tests/fixures/doc.png')
+                      .attach('avatar', 'tests/fixtures/doc.png')
                       .expect(200)
     const user = await User.findById(userOneId)
     expect(user.avatar).toEqual(expect.any(Buffer))
