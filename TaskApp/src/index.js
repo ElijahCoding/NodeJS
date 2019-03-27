@@ -1,18 +1,7 @@
-const express = require('express')
-const bodyParser = require('body-parser')
-require('./db/mongoose')
-const userRouter = require('./routers/user')
-const taskRouter = require('./routers/task')
+const app = require('./app.js')
 
-const app = express()
 const port = process.env.PORT
 
-app.use(
-    express.json(), bodyParser.json(),
-    userRouter, taskRouter, bodyParser.urlencoded({ extended: false })
-)
-
-
 app.listen(port, () => {
-    console.log(`Server is up on port ${port}`)
+    console.log('Server is up on port ' + port);
 })
