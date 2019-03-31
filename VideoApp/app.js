@@ -24,6 +24,10 @@ app.get('/', (req, res) => {
     res.render('index')
 })
 
+app.get('/ideas/add', (req, res) => {
+    res.render('ideas/add')
+})
+
 app.listen(port, () => {
     console.log(`Server runs on port ${port}`)
 })
