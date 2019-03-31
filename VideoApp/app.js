@@ -1,7 +1,16 @@
 const express = require('express')
 var exphbs  = require('express-handlebars')
+const mongoose = require('mongoose')
 
 const app = express()
+
+mongoose.Promise = global.Promise
+
+mongoose.connect('mongodb://localhost/video-app', {
+    useNewUrlParser: true,
+    useCreateIndex: true
+}).then(() => console.log('MongoDB Connected...'))
+  .catch(err => console.log(err))
 
 app.engine('handlebars', exphbs({defaultLayout: 'main'}))
 app.set('view engine', 'handlebars')
