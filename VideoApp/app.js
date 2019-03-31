@@ -12,6 +12,9 @@ mongoose.connect('mongodb://localhost/video-app', {
 }).then(() => console.log('MongoDB Connected...'))
   .catch(err => console.log(err))
 
+require('./models/Idea')
+const Idea = mongoose.model('ideas')
+
 app.engine('handlebars', exphbs({defaultLayout: 'main'}))
 app.set('view engine', 'handlebars')
 
