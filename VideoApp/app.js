@@ -1,4 +1,5 @@
 const express = require('express')
+const path = require('path')
 const exphbs  = require('express-handlebars')
 const bodyParser = require('body-parser')
 const mongoose = require('mongoose')
@@ -31,6 +32,7 @@ app.use(session({
     saveUninitialized: true
 }))
 app.use(flash())
+app.use(express.static(path.join(__dirname, 'public')))
 
 // Global variables
 app.use(function (req, res, next) {
