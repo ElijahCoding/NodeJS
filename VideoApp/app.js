@@ -3,6 +3,8 @@ const exphbs  = require('express-handlebars')
 const bodyParser = require('body-parser')
 const mongoose = require('mongoose')
 const methodOverride = require('method-override')
+const flash = require('connect-flash')
+const session = require('express-session')
 
 const app = express()
 
@@ -23,6 +25,20 @@ app.set('view engine', 'handlebars')
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 app.use(methodOverride('_method'))
+app.use(session({
+    secret: 'keyboard cat',
+    resave: false,
+    saveUninitialized: true
+}))
+app.use(flash())
+
+// Global variables
+app.use(function (req, res, next) {
+    res.locals.success_msg = req.flash('success_msg')
+    res.locals.error_msg = req.flash('error_msg')
+    res.locals.error = req.flash('error')
+    next()
+})
 
 const port = 5000
 
@@ -97,8 +113,9 @@ app.put('/ideas/:id', (req, res) => {
 })
 
 app.delete('/ideas/:id', (req, res) => {
-    Idea.remove({ _id: req.params.id })
+    Idea.deleteOne({ _id: req.params.id })
         .then(() => {
+            req.flash('success_msg', 'Video idea removed');
             res.redirect('/ideas')
         })
 })
