@@ -42,6 +42,16 @@ app.get('/ideas/add', (req, res) => {
     res.render('ideas/add')
 })
 
+app.get('/ideas/edit/:id', (req, res) => {
+    Idea.findOne({
+        _id: req.params.id
+    }).then(idea => {
+        res.render('ideas/edit' ,{
+            idea
+        })
+    })
+})
+
 app.post('/ideas', (req, res) => {
     let errors = []
 
