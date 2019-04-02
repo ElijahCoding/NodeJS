@@ -3,6 +3,7 @@ const mongoose = require('mongoose')
 const passport = require('passport')
 const auth = require('./routes/auth')
 const keys = require('./config/keys')
+require('./models/User')
 
 require('./config/passport')(passport)
 
