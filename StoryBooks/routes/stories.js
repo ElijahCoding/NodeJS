@@ -9,4 +9,8 @@ router.get('/add', (req, res) => {
   res.render('stories/add')
 })
 
+router.post('/', (req, res) => {
+    
+})
+
 module.exports = router
