@@ -5,11 +5,15 @@ const bodyParser = require('body-parser')
 const mongoose = require('mongoose')
 const methodOverride = require('method-override')
 const flash = require('connect-flash')
+const passport = require('passport')
 const session = require('express-session')
+
+const app = express()
+
 const ideas = require('./routers/ideas')
 const users = require('./routers/users')
 
-const app = express()
+require('./config/passport')(passport)
 
 mongoose.Promise = global.Promise
 
