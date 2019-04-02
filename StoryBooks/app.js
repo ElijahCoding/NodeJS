@@ -1,7 +1,9 @@
 const express = require('express')
 const mongoose = require('mongoose')
-const path = require('path')
+const passport = require('passport')
 const auth = require('./routes/auth')
+
+require('./config/passport')(passport)
 
 const app = express()
 
