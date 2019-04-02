@@ -1,4 +1,5 @@
 const express = require('express')
+const path = require('path')
 const mongoose = require('mongoose')
 const passport = require('passport')
 const exphbs = require('express-handlebars')
@@ -39,6 +40,8 @@ app.use((req, res, next) => {
   res.locals.user = req.user || null
   next()
 })
+
+app.use(express.static(path.join(__dirname + 'public')))
 
 app.use('/', index)
 app.use('/auth', auth)
