@@ -11,7 +11,9 @@
 </head>
 <body>
   {{> _header}}
-
+  {{#if user}}
+    {{> _add-btn}}
+  {{/if}}
   <main>
     <div class="container">
       {{{body}}}
@@ -26,5 +28,15 @@
   </script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"></script>
   <script src="https://cdn.ckeditor.com/4.7.3/standard/ckeditor.js"></script>
+  <script>
+    $(document).ready(() => {
+      $('.button-collapse').sideNav();
+      $('select').material_select();
+    });
+
+    CKEDITOR.replace('body',{
+      plugins: 'wysiwygarea,toolbar,basicstyles,link'
+    });
+  </script>
 </body>
 </html>
