@@ -13,6 +13,20 @@ router.get('/', (req, res) => {
     })
 })
 
+router.get('/show/:id', (req, res) => {
+    Story.findOne({ _id: req.params.id })
+         .populate('user')
+         .then(story => {
+             if (!story) {
+                 res.send('not found')
+             } else {
+                 res.render('stories/show', {
+                     story
+                 })
+             }
+         })
+})
+
 router.get('/add', (req, res) => {
   res.render('stories/add')
 })
