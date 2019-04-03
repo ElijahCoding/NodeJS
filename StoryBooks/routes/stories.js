@@ -6,11 +6,14 @@ const User = mongoose.model('users')
 const { ensureAuthenticated, ensureGuest } = require('../helpers/auth')
 
 router.get('/', (req, res) => {
-    Story.find({ status: 'public' }).populate('user').then(stories => {
-        res.render('stories/index', {
-            stories
-        })
-    })
+    Story.find({ status: 'public' })
+         .populate('user')
+         .sort({ date: 'desc' })
+         .then(stories => {
+             res.render('stories/index', {
+                 stories
+             })
+         })
 })
 
 router.get('/show/:id', (req, res) => {
@@ -33,11 +36,16 @@ router.get('/add', ensureAuthenticated, (req, res) => {
 })
 
 router.get('/edit/:id', ensureAuthenticated, (req, res) => {
-    Story.findOne({ _id: req.params.id }).then(story => {
-        res.render('stories/edit', {
-            story
-        })
-    })
+    Story.findOne({ _id: req.params.id })
+         .then(story => {
+             if (story.user != req.user.id) {
+                 res.redirect('/stories')
+             } else {
+                 res.render('stories/edit', {
+                     story
+                 })
+             }
+         })
 })
 
 router.put('/:id', (req, res) => {
