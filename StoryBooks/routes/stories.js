@@ -60,6 +60,13 @@ router.put('/:id', (req, res) => {
     })
 })
 
+router.delete('/:id', (req, res) => {
+    Story.remove({ _id: req.params.id })
+         .then(() => {
+             res.redirect('/dashboard')
+         })
+})
+
 router.post('/', (req, res) => {
     let allowComments
 
