@@ -1,10 +1,28 @@
 import { GraphQLServer } from 'graphql-yoga'
 
+const users = [
+    {
+        id: '1',
+        name: 'ivan',
+        email: 'ivan@gmail.com',
+        age: 22
+    },
+    {
+        id: '2',
+        name: 'sarah',
+        email: 'sarah@gmail.com',
+    },
+    {
+        id: '3',
+        name: 'elijah',
+        email:  'elijah@elijah.com',
+        age: 30
+    }
+]
+
 const typeDefs = `
     type Query {
-        greeting(name: String, position: String): String!
-        add(numbers: [Float!]!): Float!
-        grades: [Int!]!
+        users(query: String): [User!]!
         me: User!
         post: Post!
     }
@@ -26,23 +44,8 @@ const typeDefs = `
 
 const resolvers = {
     Query: {
-        greeting (parent, args, ctx, info) {
-            if (args.name && args.position) {
-                return `Hello ${args.name} and your positions is ${args.position}`
-            }
-        },
-
-        add (parent, args, ctx, info) {
-            if (args.numbers.length === 0) {
-                return 0
-            }
-            return args.numbers.reduce((accumulator, currentValue) => {
-                return accumulator + currentValue
-            })
-        },
-
-        grades (parent, args, ctx, info) {
-            return [1,2,3]
+        users (parent, args, ctx, info) {
+            return users
         },
 
         me () {
