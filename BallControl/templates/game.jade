@@ -29,3 +29,16 @@ block content
         Visit #[strong= "http://" + host + "/" + id] on your device to get started
 
     div(id="ball", class="ball")
+    
+block scripts
+    script(src="/socket.io/socket.io.js")
+    script.
+        var socket = io.connect('http://#{host}/#{id}')
+        
+        socket.on('connected', function () {
+    
+        })
+        
+        socket.on('updateBall', function (data) {
+            console.log(data);
+        })
