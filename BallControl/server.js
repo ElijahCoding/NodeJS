@@ -7,9 +7,10 @@ app.set('views', __dirname + '/templates')
 app.set('view engine', 'jade')
 
 app.get('/', (req, res, next) => {
+    var id = require('./helpers/randomstring')(3)
     res.render('game', {
-        id: 'abc',
-        title: 'hi',
+        id,
+        title: 'Game',
         host: req.headers.host
     })
 
