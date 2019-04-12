@@ -8,8 +8,6 @@ const ejsMate = require('ejs-mate')
 const mainRoutes = require('./routes/main')
 const userRoutes = require('./routes/user')
 
-const User  = require('./models/user')
-
 const app = express()
 
 mongoose.connect('mongodb://root:hellojava1@ds137596.mlab.com:37596/ecommerce', {
@@ -29,20 +27,6 @@ app.use(
 app.engine('ejs', ejsMate)
 app.set('view engine', 'ejs')
 
-
-app.post('/create-user', (req, res, next) => {
-    const user = new User()
-
-    user.profile.name = req.body.name
-    user.password = req.body.password
-    user.email = req.body.email
-
-    user.save(function (err) {
-        if (err) next(err)
-
-        res.json('Successfully created a new user')
-    })
-})
 
 app.listen(3000, (err) => {
     if (err) throw err
