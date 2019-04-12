@@ -2,6 +2,9 @@ const express = require('express')
 const morgan = require('morgan')
 const mongoose = require('mongoose')
 const bodyParser = require('body-parser')
+const ejs = require('ejs')
+const ejsMate = require('ejs-mate')
+
 const User  = require('./models/user')
 
 const app = express()
@@ -17,6 +20,13 @@ mongoose.connect('mongodb://root:hellojava1@ds137596.mlab.com:37596/ecommerce', 
 app.use(
     morgan('dev'), bodyParser.json(), bodyParser.urlencoded({ extended: false })
 )
+app.engine('ejs', ejsMate)
+app.set('view engine', 'ejs')
+
+
+app.get('/', (req, res, next) => {
+    res.render('home')
+})
 
 app.post('/create-user', (req, res, next) => {
     const user = new User()
