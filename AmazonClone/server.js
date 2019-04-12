@@ -5,6 +5,9 @@ const bodyParser = require('body-parser')
 const ejs = require('ejs')
 const ejsMate = require('ejs-mate')
 
+const mainRoutes = require('./routes/main')
+const userRoutes = require('./routes/user')
+
 const User  = require('./models/user')
 
 const app = express()
@@ -20,14 +23,12 @@ mongoose.connect('mongodb://root:hellojava1@ds137596.mlab.com:37596/ecommerce', 
 app.use(
     morgan('dev'), bodyParser.json(),
     bodyParser.urlencoded({ extended: false }),
-    express.static(__dirname + '/public')
+    express.static(__dirname + '/public'),
+    mainRoutes, userRoutes
 )
 app.engine('ejs', ejsMate)
 app.set('view engine', 'ejs')
 
-app.get('/', (req, res, next) => {
-    res.render('main/about')
-})
 
 app.post('/create-user', (req, res, next) => {
     const user = new User()
