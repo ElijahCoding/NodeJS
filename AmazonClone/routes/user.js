@@ -1,6 +1,16 @@
 const express = require('express')
 const router = express.Router()
 const User = require('../models/User')
+const passport = require('passport')
+const passportConf = require('../config/passport')
+
+router.get('/login', (req, res, next) => {
+    if (req.user) return res.redirect('/')
+    res.render('accounts/login', {
+        message: req.flash('loginMessage')
+    })
+})
+
 
 router.get('/signup', (req, res, next) => {
     res.render('accounts/signup', {
