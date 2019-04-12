@@ -7,13 +7,16 @@ const ejsMate = require('ejs-mate')
 const session = require('express-session')
 const cookieParser = require('cookie-parser')
 const expressFlash = require('express-flash')
+const secret = require('./config/secret')
+const MongoStore = require('connect-mongo')(session)
+const passport = require('passport')
 
 const mainRoutes = require('./routes/main')
 const userRoutes = require('./routes/user')
 
 const app = express()
 
-mongoose.connect('mongodb://root:hellojava1@ds137596.mlab.com:37596/ecommerce', {
+mongoose.connect(secret.database, {
     useNewUrlParser: true,
     useCreateIndex: true
 }, (err) => {
@@ -30,7 +33,8 @@ app.use(cookieParser());
 app.use(session({
   resave: true,
   saveUninitialized: true,
-  secret: 'secret',
+  secret: secret.secretKey,
+  store: new MongoStore({ url: secret.database , autoReconnect: true })
 }));
 app.use(expressFlash());
 app.engine('ejs', ejsMate)
@@ -41,7 +45,7 @@ app.set('view engine', 'ejs')
 app.use(mainRoutes);
 app.use(userRoutes);
 
-app.listen(3000, (err) => {
+app.listen(secret.port, (err) => {
     if (err) throw err
     console.log('Service is running');
 })
