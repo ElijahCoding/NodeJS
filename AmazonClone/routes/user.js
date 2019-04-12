@@ -3,7 +3,9 @@ const router = express.Router()
 const User = require('../models/User')
 
 router.get('/signup', (req, res, next) => {
-    res.render('accounts/signup')
+    res.render('accounts/signup', {
+        errors: req.flash('errors')
+    })
 })
 
 router.post('/signup', (req, res, next) => {
@@ -15,13 +17,13 @@ router.post('/signup', (req, res, next) => {
 
     User.findOne({ email: req.body.email }, (err, existingUser) => {
         if (existingUser) {
-            console.log(req.body.email + ' is already exist')
+            req.flash('errors', 'Account with that email address already exists')
             return res.redirect('/signup')
         } else {
             user.save((err, user) => {
                 if (err) return next(err)
 
-                res.json('New user has been created')
+                res.redirect('/')
             })
         }
     })
