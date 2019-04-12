@@ -18,14 +18,15 @@ mongoose.connect('mongodb://root:hellojava1@ds137596.mlab.com:37596/ecommerce', 
 })
 
 app.use(
-    morgan('dev'), bodyParser.json(), bodyParser.urlencoded({ extended: false })
+    morgan('dev'), bodyParser.json(),
+    bodyParser.urlencoded({ extended: false }),
+    express.static(__dirname + '/public')
 )
 app.engine('ejs', ejsMate)
 app.set('view engine', 'ejs')
 
-
 app.get('/', (req, res, next) => {
-    res.render('home')
+    res.render('main/about')
 })
 
 app.post('/create-user', (req, res, next) => {
