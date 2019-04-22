@@ -15,4 +15,6 @@ router.get('/posts/:postId', feedController.getPost)
 
 router.put('/posts/:postId', feedController.updatePost)
 
+router.delete('/posts/:postId', feedController.deletePost)
+
 module.exports = router
