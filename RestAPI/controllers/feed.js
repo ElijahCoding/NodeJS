@@ -50,7 +50,7 @@ exports.createPost = (req, res, next) => {
     });
 };
 
-exports.getPost = (req, res ,next) => {
+exports.getPost = (req, res, next) => {
     Post.findById(req.params.postId).then(post => {
         if (!post) {
             const error = new Error('Could not find post.')
@@ -67,4 +67,18 @@ exports.getPost = (req, res ,next) => {
             next(err)
         }
     })
+}
+
+exports.updatePost = (req, res, next) => {
+    const postId = req.params.postId;
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      const error = new Error('Validation failed, entered data is incorrect.');
+      error.statusCode = 422;
+      throw error;
+    }
+
+    const title = req.body.title;
+    const content = req.body.content;
+    let imageUrl = req.body.image;
 }

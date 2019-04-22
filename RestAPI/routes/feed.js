@@ -13,4 +13,6 @@ router.post('/post', [
 
 router.get('/posts/:postId', feedController.getPost)
 
+router.put('/posts/:postId', feedController.updatePost)
+
 module.exports = router
