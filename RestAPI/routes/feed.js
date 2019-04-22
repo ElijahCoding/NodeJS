@@ -4,7 +4,9 @@ const { body } = require('express-validator/check')
 
 const feedController = require('../controllers/feed')
 
-router.get('/posts', feedController.getPosts)
+const isAuth = require('../middleware/is-auth')
+
+router.get('/posts', isAuth, feedController.getPosts)
 
 router.post('/post', [
     body('title').trim().isLength({ min: 7 }),
