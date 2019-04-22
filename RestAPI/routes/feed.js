@@ -13,10 +13,10 @@ router.post('/post', [
     body('content').trim().isLength({ min: 5 })
 ], feedController.createPost)
 
-router.get('/posts/:postId', feedController.getPost)
+router.get('/posts/:postId', isAuth, feedController.getPost)
 
-router.put('/posts/:postId', feedController.updatePost)
+router.put('/posts/:postId', isAuth, feedController.updatePost)
 
-router.delete('/posts/:postId', feedController.deletePost)
+router.delete('/posts/:postId', isAuth, feedController.deletePost)
 
 module.exports = router
