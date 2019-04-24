@@ -1,4 +1,4 @@
-const GenerationEngine = require('./engine')
+const GenerationEngine = require('./generation/engine')
 const express = require('express')
 
 const app = express()
@@ -8,10 +8,6 @@ engine.start()
 
 app.get('/dragon/new', (req, res, next) => {
     res.json({ dragon: engine.generation.newDragon() })
-})
-
-app.listen(3000, () => {
-    console.log('Working')
 })
 
 module.exports = app
