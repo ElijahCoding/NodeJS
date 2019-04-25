@@ -2,6 +2,7 @@ const express = require('express')
 const app = express()
 const keys = require('./config/keys')
 
+const passport = require('passport')
 const GoogleStrategy = require('passport-google-oauth20').Strategy
 
 passport.use(
@@ -14,7 +15,11 @@ passport.use(
     })
 )
 
-app.get('/auth/google')
+app.get('/auth/google', passport.authenticate('google', {
+    scope: ['profile', 'email']
+}))
+
+app.get('/auth/google/callback', passport.authenticate('google'))
 
 const PORT = process.env.PORT || 3000
 app.listen(PORT)
