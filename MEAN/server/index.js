@@ -5,4 +5,5 @@ app.get('/', (req, res, next) => {
     res.send({ text: 'working' })
 })
 
-app.listen(3000, () => console.log('Working'))
+const PORT = process.env.PORT || 3000
+app.listen(PORT)
