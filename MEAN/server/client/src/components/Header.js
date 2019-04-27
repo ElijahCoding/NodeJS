@@ -9,7 +9,7 @@ class Header extends Component {
 
                     <ul id="nav-mobile" class="right hide-on-med-and-down">
                       <li>
-                        <a>Login with Google</a>
+                        <a href="/auth/google">Login with Google</a>
                       </li>
                     </ul>
                 </div>
