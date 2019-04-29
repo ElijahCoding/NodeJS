@@ -1,8 +1,8 @@
 {
   "name": "nuxt-blog",
   "version": "1.0.0",
-  "description": "My superior Nuxt.js project",
-  "author": "ElijahCoding",
+  "description": "My awesome nuxt fullstack blog",
+  "author": "Vladilen Minin",
   "private": true,
   "scripts": {
     "dev": "cross-env NODE_ENV=development nodemon server/index.js --watch server",
@@ -18,6 +18,8 @@
     "@nuxtjs/axios": "^5.3.6"
   },
   "devDependencies": {
-    "nodemon": "^1.18.9"
+    "node-sass": "^4.11.0",
+    "nodemon": "^1.18.9",
+    "sass-loader": "^7.1.0"
   }
 }
