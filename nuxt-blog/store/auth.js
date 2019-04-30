@@ -20,7 +20,7 @@ export const actions = {
           })
           dispatch('setToken', token)
         } catch (e) {
-          commit('setError', e, {root: true})
+          commit('setError', e, { root: true })
           throw e
         }
     },
@@ -31,6 +31,10 @@ export const actions = {
 
     logout ({ commit }) {
         commit('clearToken')
+    },
+
+    createUser ({ commit }) {
+        
     }
 }
 
