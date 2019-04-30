@@ -57,7 +57,7 @@ export default {
     }
   },
   mounted() {
-    const {message} = this.$route.query
+    const { message } = this.$route.query
 
     switch (message) {
       case 'login':
