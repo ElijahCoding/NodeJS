@@ -52,14 +52,17 @@
 export default {
   layout: 'admin',
   middleware: ['admin-auth'],
+
   async asyncData({store}) {
     const posts = await store.dispatch('post/fetchAdmin')
     return {posts}
   },
+
   methods: {
     open(id) {
       this.$router.push(`/admin/post/${id}`)
     },
+    
     async remove(id) {
       try {
         await this.$confirm('Удалить пост?', 'Внимание!', {
