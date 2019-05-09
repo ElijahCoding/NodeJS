@@ -16,9 +16,25 @@ router.get(
 )
 
 router.get(
-  '/admin/:id',
-  passport.authenticate('jwt', {session: false}),
-  postController.getById
+    '/admin/:id',
+    passport.authenticate('jwt', {session: false}),
+    postController.getById
 )
+
+router.put(
+    '/admin/:id',
+    passport.authenticate('jwt', {session: false}),
+    postController.update
+)
+
+router.delete(
+    '/admin/:id',
+    passport.authenticate('jwt', {session: false}),
+    postController.remove
+)
+
+router.get('/', postController.getAll)
+router.get('/:id', postController.getById)
+router.put('/:id', postController.addView)
 
 module.exports = router
