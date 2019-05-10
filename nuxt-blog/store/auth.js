@@ -32,8 +32,13 @@ export const actions = {
         commit('clearToken')
     },
 
-    createUser ({ commit }) {
-
+    async createUser ({ commit }, formData) {
+        try {
+            await this.$axios.$post('/api/auth/admin/create', formData)
+        } catch (e) {
+            commit('setError', e, { root: true })
+            throw e
+        }
     }
 }
 
