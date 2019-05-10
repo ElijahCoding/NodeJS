@@ -13,7 +13,7 @@ module.exports.login = async (req, res) => {
             const token = jwt.sign({
                 login: candidate.login,
                 userId: candidate._id
-            }, '', { expiresIn: 60 * 60 })
+            }, keys.JWT, { expiresIn: 60 * 60 })
 
             res.json({ token })
 
@@ -41,7 +41,7 @@ module.exports.createUser = async (req, res) => {
         })
 
         await user.save()
-        
+
         res.status(201).json(user)
     }
 }
