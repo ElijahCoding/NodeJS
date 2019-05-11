@@ -37,6 +37,6 @@ router.delete(
 
 router.get('/', postController.getAll)
 router.get('/:id', postController.getById)
-router.put('/:id', postController.addView)
+router.put('/add/view/:id', postController.addView)
 
 module.exports = router

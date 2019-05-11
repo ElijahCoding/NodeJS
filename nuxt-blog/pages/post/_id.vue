@@ -57,8 +57,10 @@ export default {
 
   async asyncData ({ store, params }) {
       const post = await store.dispatch('post/fetchById', params.id)
-
-      return { post }
+      await store.dispatch('post/addView', post)
+      return {
+          post: { ...post, views: ++post.views }
+      }
   },
 
   data() {
