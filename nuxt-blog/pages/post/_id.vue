@@ -70,7 +70,8 @@ export default {
   },
 
   methods: {
-    createCommentHandler() {
+    createCommentHandler(comment) {
+        this.post.comments.unshift(comment)
       this.canAddComment = false
     }
   },
