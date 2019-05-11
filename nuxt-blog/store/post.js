@@ -51,11 +51,13 @@ export const actions = {
       throw e
     }
   },
-  async fetchAdminById({}, id) {
-    return await new Promise(resolve => {
-      setTimeout(() => {
-        resolve(posts.find(p => p._id === id))
-      }, 1000)
-    })
+
+  async fetchAdminById({ commit }, id) {
+    try {
+        return await this.$axios.$get(`/api/post/admin/${id}`)
+    } catch (e) {
+        commit('setError', e)
+        throw e
+    }
   }
 }
