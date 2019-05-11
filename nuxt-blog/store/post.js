@@ -9,7 +9,7 @@ export const actions = {
 
   },
 
-  async fetch({  }) {
+  async fetch({ commit }) {
       try {
           return await this.$axios.$get('/api/post')
       } catch (e) {
@@ -59,5 +59,14 @@ export const actions = {
         commit('setError', e)
         throw e
     }
+  },
+
+  async fetchById({ commit }, id) {
+      try {
+          return await this.$axios.$get(`/api/post/${id}`)
+      } catch (e) {
+          commit('setError', e, {root: true})
+          throw e
+      }
   }
 }
