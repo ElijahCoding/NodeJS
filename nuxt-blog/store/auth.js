@@ -40,6 +40,14 @@ export const actions = {
             commit('setError', e, { root: true })
             throw e
         }
+    },
+
+    autoLogin () {
+        const cookieStr = process.browser
+        ? document.cookie
+        : this.app.context.req.headers.cookie
+
+        console.log(cookieStr);
     }
 }
 
