@@ -48,7 +48,7 @@ export const actions = {
         }
     },
 
-    autoLogin () {
+    autoLogin ({ dispatch }) {
         const cookieStr = process.browser
         ? document.cookie
         : this.app.context.req.headers.cookie
@@ -56,11 +56,26 @@ export const actions = {
         const cookies = Cookie.parse(cookieStr || '') || {}
         const token = cookies['jwt-token']
 
-
+        if (isJWTValid(token)) {
+            dispatch('setToken', token)
+        } else {
+            dispatch('logout')
+        }
     }
 }
 
 export const getters = {
     isAuthenticated: state => Boolean(state.token),
     token: state => state.token
+}
+
+function isJWTValid(token) {
+    if (!token) {
+        return false
+    }
+
+    const jwtData = jwtDecode(token) || {}
+    const expires = jwtData.exp || 0
+
+    return (new Date().getTime() / 1000) < expires
 }
