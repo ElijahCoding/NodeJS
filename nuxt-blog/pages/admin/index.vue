@@ -22,5 +22,14 @@ export default {
   layout: 'admin',
 
   middleware: ['admin-auth'],
+
+  components: {
+      AppAnalyticsChart
+  },
+
+  async asyncData({store}) {
+    const {views, comments} = await store.dispatch('post/getAnalytics')
+    return { views, comments }
+  },
 }
 </script>
