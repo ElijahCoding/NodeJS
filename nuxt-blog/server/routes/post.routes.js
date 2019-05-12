@@ -35,6 +35,12 @@ router.delete(
     postController.remove
 )
 
+router.get(
+    '/admin/get/analytics',
+    passport.authenticate('jwt', {session: false}),
+    postController.getAnalytics
+)
+
 router.get('/', postController.getAll)
 router.get('/:id', postController.getById)
 router.put('/add/view/:id', postController.addView)
