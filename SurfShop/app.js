@@ -16,6 +16,15 @@ const reviews = require('./routes/reviews');
 
 const app = express();
 
+// connect to the database
+mongoose.connect('mongodb://root:hellojava1@ds135974.mlab.com:35974/surf-shop', { useNewUrlParser: true });
+const db = mongoose.connection;
+db.on('error', console.error.bind(console, 'connection error:'));
+db.once('open', () => {
+    console.log('Connected');
+});
+
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
