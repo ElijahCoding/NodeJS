@@ -12,7 +12,7 @@ module.exports = {
 	},
 	// Posts Create
 	async postCreate(req, res, next) {
-		let post = await Post.create(req.body);
+		let post = await Post.create(req.body.post);
 		res.redirect(`/posts/${post.id}`);
 	},
 	// Posts Show
