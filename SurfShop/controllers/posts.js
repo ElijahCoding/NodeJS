@@ -1,4 +1,10 @@
 const Post = require('../models/post');
+const cloudinary = require('cloudinary');
+cloudinary.config({
+    cloud_name: 'soft-valley',
+    api_key: '465163831297118',
+    api_secret: process.env.CLOUDINARY_SECRET
+});
 
 module.exports = {
 	// Posts Index
