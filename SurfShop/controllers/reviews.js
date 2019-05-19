@@ -6,10 +6,12 @@ module.exports = {
 	async reviewCreate(req, res, next) {
 
 	},
+    
 	// Reviews Update
 	async reviewUpdate(req, res, next) {
 
 	},
+
 	// Reviews Destroy
 	async reviewDestroy(req, res, next) {
 
