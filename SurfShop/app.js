@@ -1,6 +1,7 @@
 require('dotenv').config();
 
 const express = require('express');
+const engine = require('ejs-mate');
 const path = require('path');
 const favicon = require('serve-favicon');
 const logger = require('morgan');
@@ -27,6 +28,9 @@ db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', () => {
     console.log('Connected');
 });
+
+// use ejs-locals for all ejs templates:
+app.engine('ejs', engine);
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
