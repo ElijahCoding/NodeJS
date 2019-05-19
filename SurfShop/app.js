@@ -6,42 +6,45 @@ const path = require('path');
 const favicon = require('serve-favicon');
 const logger = require('morgan');
 const cookieParser = require('cookie-parser');
-const bodyParser = require('body-parser');
 const passport = require('passport');
 const User = require('./models/user');
 const session = require('express-session');
 const mongoose = require('mongoose');
 const methodOverride = require('method-override');
+// const seedPosts = require('./seeds');
+// seedPosts();
 
-// Register routes
-const index = require('./routes/index');
-const posts = require('./routes/posts');
+// require routes
+const index 	= require('./routes/index');
+const posts 	= require('./routes/posts');
 const reviews = require('./routes/reviews');
 
 const app = express();
 
 // connect to the database
-mongoose.connect('mongodb://root:hellojava1@ds135974.mlab.com:35974/surf-shop', { useNewUrlParser: true });
+mongoose.connect('mongodb://localhost:27017/surf-shop', {
+  useNewUrlParser: true,
+  useCreateIndex: true
+});
 
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', () => {
-    console.log('Connected');
+  console.log('we\'re connected!');
 });
 
 // use ejs-locals for all ejs templates:
 app.engine('ejs', engine);
-
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
-
 // set public assets directory
 app.use(express.static('public'));
 
+app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(methodOverride('_method'));
@@ -60,13 +63,14 @@ passport.use(User.createStrategy());
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
-
 // set local variables middleware
 app.use(function(req, res, next) {
-  req.user = {
-    '_id' : '5bb27cd1f986d278582aa58c',
-    'username' : 'ian'
-  }
+  // req.user = {
+  //   // '_id' : '5bb27cd1f986d278582aa58c',
+  //   // '_id' : '5bc521c0b142b6d7f7523406',
+  //   '_id' : '5bfed10ad176f845e38aec92',
+  //   'username' : 'ian3'
+  // }
   res.locals.currentUser = req.user;
   // set default page title
   res.locals.title = 'Surf Shop';

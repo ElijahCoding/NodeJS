@@ -1,10 +1,10 @@
 require('dotenv').config();
 
-const mbxStyles = require('@mapbox/mapbox-sdk/services/styles');
-const stylesService = mbxStyles({ accessToken: process.env.MAPBOX_TOKEN });
+const mbxGeocoding = require('@mapbox/mapbox-sdk/services/geocoding');
+const geocodingClient = mbxGeocoding({ accessToken: process.env.MAPBOX_TOKEN });
 
 async function geocoder(location) {
-	try {
+	try {	
 		let response = await geocodingClient
 		  .forwardGeocode({
 		    query: location,
