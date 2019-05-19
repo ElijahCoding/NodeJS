@@ -36,12 +36,14 @@ app.engine('ejs', engine);
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
+// set public assets directory
+app.use(express.static('public'));
+
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-
 app.use(methodOverride('_method'));
 
 // Configure Passport and Sessions
@@ -55,9 +57,23 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 passport.use(User.createStrategy());
-
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
+
+
+// set local variables middleware
+app.use(function(req, res, next) {
+  // set default page title
+  res.locals.title = 'Surf Shop';
+  // set success flash message
+  res.locals.success = req.session.success || '';
+  delete req.session.success;
+  // set error flash message
+  res.locals.error = req.session.error || '';
+  delete req.session.error;
+  // continue on to next function in middleware chain
+  next();
+});
 
 // Mount routes
 app.use('/', index);
