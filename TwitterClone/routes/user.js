@@ -1,5 +1,6 @@
 const router = require('express').Router();
 const passport = require('passport');
+const passportConfig = require('../config/passport');
 const User = require('../models/user');
 
 router.route('/signup')
@@ -27,5 +28,21 @@ router.route('/signup')
               }
           });
       });
+
+router.route('/login')
+      .get((req, res, next) => {
+          if (req.user) res.redirect('/');
+          res.render('accounts/login', { message: req.flash('loginMessage')});
+      })
+      .post(passport.authenticate('local-login', {
+          successRedirect: '/',
+          failureRedirect: '/login',
+          failureFlash: true
+      }));
+
+router.get('/logout', (req, res, next) => {
+    req.logout();
+    res.redirect('/');
+});
 
 module.exports = router
