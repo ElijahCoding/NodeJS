@@ -5,8 +5,14 @@ const mongoose = require('mongoose');
 const hbs = require('hbs');
 const expressHbs = require('express-handlebars');
 const session = require('express-session');
+const config = require('./config/secret');
 
 const app = express();
+
+mongoose.connect(config.database, (err) => {
+    if (err) console.log(err);
+    console.log("connected to the database");
+});
 
 
 app.engine('.hbs', expressHbs({ defaultLayout: 'layout', extname: '.hbs' }));
