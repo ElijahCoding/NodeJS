@@ -1,4 +1,5 @@
 module.exports = {
-    database: 'mongodb://root:hellojava1@ds159216.mlab.com:59216/twitter-clone',
-    secret: "dev-test"
+  database: 'mongodb://root:abc123@ds133221.mlab.com:33221/arashtwitter',
+  secret: "hahahaha88888"
+
 }
