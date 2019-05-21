@@ -36,37 +36,42 @@ passport.use(new LocalStrategy({
 
 ));
 
-passport.use(new FacebookStrategy({
-        clientID: '2357738587579756',
-        clientSecret: '694a01e325daebf06705df47f882506f',
-        callbackURL: 'http://localhost:3000/auth/facebook/callback',
-        profileFields: ['id', 'displayName', 'email']
-    },
-    function(token, refreshToken, profile, done) {
-        User.findOne({ 'facebookId': profile.id }, function(err, user) {
-            if (err) return done(err);
-            if (user) {
-                return done(null, user);
-            } else {
-                User.findOne({ email: profile.emails[0].value }, function(err, user) {
-                    if (user) {
-                        user.facebookId = profile.id
-                        return user.save(function (err) {
-                            if (err) return done(null, false, { message: "Can't save user info"});
-                            return done(null, user);
-                        })
-                    }
 
-                    var user = new User();
-                    user.name = profile.displayName;
-                    user.email = profile.emails[0].value;
-                    user.facebookId = profile.idea;
-                    user.save(function (err) {
-                        if (err) return done(null, false, { message: "Can't save user info"});
-                        return done(null, user);
-                    });
-                });
-            }
-        });
-    }
+passport.use(new FacebookStrategy({
+    clientID: '2357738587579756',
+    clientSecret: '694a01e325daebf06705df47f882506f',
+    callbackURL: 'http://localhost:3000/auth/facebook/callback',
+    profileFields: ['id', 'displayName', 'email']
+  },
+  function(token, refreshToken, profile, done) {
+    User.findOne({'facebookId': profile.id}, function(err, user) {
+      if (err) return done(err);
+
+      if (user) {
+        return done(null, user);
+      } else {
+          console.log(profile);
+        User.findOne({email: profile.emails[0].value}, function (err, user) {
+          if (user) {
+            user.facebookId = profile.id
+            return user.save(function (err) {
+              if (err) return done(null, false, { message: "Can't save user info"});
+              return done(null, user);
+            })
+          }
+
+          var user = new User();
+          user.name = profile.displayName;
+          user.email = profile.emails[0].value;
+          user.facebookId = profile.idea
+          user.save(function (err) {
+            if (err) return done(null, false, { message: "Can't save user info"});
+            return done(null, user);
+          });
+        })
+      }
+
+
+    });
+  }
 ));
