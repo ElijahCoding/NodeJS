@@ -1,6 +1,11 @@
 <h1 class="text-center">Contact Us</h1>
 
 <form class="col-md-6 col-md-offset-3" method="post">
+    {{#each errorMessages}}
+    <div class="alert alert-danger">
+        {{this.msg}}
+    </div>
+  {{/each}}
   <div class="form-group">
     <label>Name</label>
     <input class="form-control" placeholder="Your Name">
