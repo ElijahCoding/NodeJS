@@ -9,7 +9,8 @@ var expressValidator = require('express-validator');
 var mongoose = require('mongoose');
 var config = require('./config');
 
-var index = require('./routes/index');
+var indexRoute = require('./routes/index');
+var authRoute = require('./routes/auth');
 
 mongoose.connect(config.dbConnstring);
 global.User = require('./models/user');
@@ -29,7 +30,8 @@ app.use(expressValidator());
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', index);
+app.use('/', indexRoute);
+app.use('/', authRoute);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
