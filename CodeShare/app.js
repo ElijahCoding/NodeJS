@@ -18,6 +18,7 @@ var taskRoute = require('./routes/task');
 
 mongoose.connect(config.dbConnstring);
 global.User = require('./models/user');
+global.Task = require('./models/task');
 
 var app = express();
 
