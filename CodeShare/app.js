@@ -7,8 +7,11 @@ var bodyParser = require('body-parser');
 var expressValidator = require('express-validator');
 
 var mongoose = require('mongoose');
+var passport = require('passport');
+var session = require('express-session');
 var config = require('./config');
 
+require('./passport');
 var indexRoute = require('./routes/index');
 var authRoute = require('./routes/auth');
 
@@ -28,7 +31,23 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(expressValidator());
 app.use(cookieParser());
+
+app.use(session({
+    secret: config.sessionKey,
+    resave: false,
+    saveUninitialized: true
+}));
+app.use(passport.initialize());
+app.use(passport.session());
+
 app.use(express.static(path.join(__dirname, 'public')));
+
+app.use(function(req, res, next) {
+    if (req.isAuthenticated()) {
+        res.locals.user = req.user;
+    }
+    next();
+});
 
 app.use('/', indexRoute);
 app.use('/', authRoute);
