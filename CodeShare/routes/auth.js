@@ -44,6 +44,12 @@ router.route('/register')
                   }
               });
           }
-      })
+      });
+
+router.get('/logout', function(req, res, next) {
+    req.logout();
+    res.redirect('/login');
+});
+
 
 module.exports = router;
