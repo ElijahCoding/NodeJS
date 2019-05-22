@@ -2,6 +2,17 @@ import { GraphQLServer } from 'graphql-yoga'
 
 const typeDefs = `
   type Query {
-    hello(name: String): String!
+    hello: String!
   }
 `
+
+const resolvers = {
+  Query: {
+    hello () {
+        return 'this is my first graphql query'
+    }
+  },
+}
+
+const server = new GraphQLServer({ typeDefs, resolvers })
+server.start(() => console.log('Server is running on localhost:4000'))
