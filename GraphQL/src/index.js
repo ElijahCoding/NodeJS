@@ -1,10 +1,42 @@
 import { GraphQLServer } from 'graphql-yoga'
 
+// Demo user data
+const users = [{
+    id: '1',
+    name: 'Andrew',
+    email: 'andrew@example.com',
+    age: 27
+}, {
+    id: '2',
+    name: 'Sarah',
+    email: 'sarah@example.com'
+}, {
+    id: '3',
+    name: 'Mike',
+    email: 'mike@example.com'
+}]
+
+const posts = [{
+    id: '10',
+    title: 'GraphQL 101',
+    body: 'This is how to use GraphQL...',
+    published: true
+}, {
+    id: '11',
+    title: 'GraphQL 201',
+    body: 'This is an advanced GraphQL post...',
+    published: false
+}, {
+    id: '12',
+    title: 'Programming Music',
+    body: '',
+    published: false
+}]
+
 const typeDefs = `
   type Query {
-      greeting(name: String, position: String): String!
-      add(numbers: [Float!]!): Float!
-      grades: [Int!]!
+      users(query: String): [User!]!
+      posts(query: String): [Post!]!
       me: User!
       post: Post!
   }
@@ -20,31 +52,32 @@ const typeDefs = `
       id: ID!
       title: String!
       body: String!
+      published: Boolean!
   }
 `
 
 const resolvers = {
   Query: {
-      greeting (parent, args, ctx, info) {
-          if (args.name && args.position) {
-              return `hello ${args.name}! You are ${args.position}`
-          } else {
-              return 'hello'
+      users (parent, args, ctx, info) {
+          if (!args.query) {
+              return users
           }
+
+            return users.filter((user) => {
+                return user.name.toLowerCase().includes(args.query.toLowerCase())
+            })
       },
 
-      add (parent, args, ctx, info) {
-          if (args.numbers.length === 0) {
-              return 0
+      posts (parent, args, ctx, info) {
+          if (!args.query) {
+              return posts
           }
 
-          return args.numbers.reduce((accumulator, currentValue) => {
-              return accumulator + currentValue
+          return posts.filter((post) => {
+              const isTitleMatch = post.title.toLowerCase().includes(args.query.toLowerCase())
+              const isBodyMatch = post.body.toLowerCase().includes(args.query.toLowerCase())
+              return isTitleMatch || isBodyMatch
           })
-      },
-
-      grades (parent, args, ctx, info) {
-          return [1, 3, 5]
       },
 
       me () {
