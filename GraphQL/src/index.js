@@ -36,10 +36,29 @@ const posts = [{
     author: '2'
 }]
 
+const comments = [{
+    id: '102',
+    text: 'This worked well for me. Thanks!',
+    author: '3'
+}, {
+    id: '103',
+    text: 'Glad you enjoyed it.',
+    author: '1'
+}, {
+    id: '104',
+    text: 'This did no work.',
+    author: '2'
+}, {
+    id: '105',
+    text: 'Nevermind. I got it to work.',
+    author: '1'
+}]
+
 const typeDefs = `
   type Query {
       users(query: String): [User!]!
       posts(query: String): [Post!]!
+      comments(query: String): [Comment!]!
       me: User!
       post: Post!
   }
@@ -50,6 +69,7 @@ const typeDefs = `
       email: String!
       age: Int
       posts: [Post!]!
+      comments: [Comment!]!
   }
 
   type Post {
@@ -57,6 +77,12 @@ const typeDefs = `
       title: String!
       body: String!
       published: Boolean!
+      author: User!
+  }
+
+  type Comment {
+      id: ID!
+      text: String!
       author: User!
   }
 `
@@ -82,6 +108,16 @@ const resolvers = {
               const isTitleMatch = post.title.toLowerCase().includes(args.query.toLowerCase())
               const isBodyMatch = post.body.toLowerCase().includes(args.query.toLowerCase())
               return isTitleMatch || isBodyMatch
+          })
+      },
+
+      comments (parent, args, ctx, info) {
+          if (!args.query) {
+              return comments
+          }
+
+          return comments.filter(comment => {
+              return comment.text.toLowerCase().includes(args.query.toLowerCase())
           })
       },
 
@@ -112,6 +148,18 @@ const resolvers = {
           return posts.filter((post) => {
               return post.author === parent.id
           })
+      },
+
+      comments(parent, args, ctx, info) {
+          return comments.filter(comment => {
+              return comment.author === parent.id
+          })
+      }
+  },
+
+  Comment: {
+      author(parent, args, ctx, info) {
+          return users.find(user => user.id === parent.author)
       }
   }
 }
