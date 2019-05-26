@@ -5,43 +5,30 @@ const prisma = new Prisma({
   endpoint: 'http://localhost:4466'
 })
 
-// prisma.query.users(null, '{ id name posts { id title } }').then((data) => {
-//     console.log(JSON.stringify(data, undefined, 2))
-// })
-//
-// prisma.query.comments(null, '{ id text author { id name } }').then((data) => {
-//     console.log(JSON.stringify(data, undefined, 2))
-// })
+const createPostForUser = async (authorId, data) => {
+    const post = await prisma.mutation.createPost({
+        data: {
+            ...data,
+            author: {
+                connect: {
+                    id: authorId
+                }
+            }
+        }
+    }, '{ id }')
+    const user = await prisma.query.user({
+        where: {
+            id: authorId
+        }
+    }, '{ id name email email posts { id title published } }')
 
-// prisma.mutation.createPost({
-//     data: {
-//         title: "GraphQL 101",
-//         body: "",
-//         published: false,
-//         author: {
-//             connect: {
-//                 id: "cjw510scn000i0933s8qsxpm4"
-//             }
-//         }
-//     }
-// }, '{ id title body published }').then(data => {
-//     console.log(data);
-//     return prisma.query.users(null, '{ id name posts { id title } }')
-//                  .then(data => {
-//                      console.log(JSON.stringify(data, undefined, 2))
-//                  })
-// })
+    return user
+}
 
-prisma.mutation.updatePost({
-    where: {
-        id: "cjw517o04001809330p8q7zal"
-    },
-    data: {
-        body: "This is how to get started with Graphql...",
-        published: true
-    }
-}, '{ id }').then(data => {
-    return prisma.query.posts(null, '{ id title body published }')
-}).then(data => {
-    console.log(data);
+createPostForUser('cjw510scn000i0933s8qsxpm4', {
+    title: 'Great books to read',
+    body: 'The War of Art',
+    published: true
+}).then((user) => {
+    console.log(JSON.stringify(user, undefined, 2))
 })
