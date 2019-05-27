@@ -31,14 +31,8 @@ const Query = {
         return prisma.query.posts(opArgs, info)
     },
 
-    comments (parent, args, { db }, info) {
-        if (!args.query) {
-            return db.comments
-        }
-
-        return db.comments.filter(comment => {
-            return comment.text.toLowerCase().includes(args.query.toLowerCase())
-        })
+    comments (parent, args, { prisma }, info) {
+        return prisma.query.comments(null, info)
     }
 }
 
