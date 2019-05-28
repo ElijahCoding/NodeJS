@@ -22,8 +22,8 @@ const Mutation = {
         }, info)
     },
 
-    async createPost (parent, args, { prisma, pubsub }, info) {
-        return prisma.mutaion.createPost({
+    async createPost (parent, args, { prisma }, info) {
+        return prisma.mutation.createPost({
             data: {
                 title: args.data.title,
                 body: args.data.body,
@@ -38,23 +38,55 @@ const Mutation = {
     },
 
     async deletePost (parent, args, { prisma, pubsub }, info) {
-        
+        return prisma.mutation.deletePost({
+            where: {
+                id: args.id
+            }
+        }, info)
     },
 
     async updatePost (parent, args, { prisma }, info) {
-
+        return prisma.mutation.updatePost({
+            where: {
+                id: args.id
+            },
+            data: args.data
+        }, info)
     },
 
-    async createComment (parent, args, { prisma, pubsub }, info) {
-
+    async createComment (parent, args, { prisma }, info) {
+        return prisma.mutation.createComment({
+            data: {
+                text: args.data.text,
+                author: {
+                    connect: {
+                        id: args.data.author
+                    }
+                },
+                post: {
+                    connect: {
+                        id: args.data.post
+                    }
+                }
+            }
+        }, info)
     },
 
-    async deleteComment (parent, args, { prisma, pubsub }, info) {
-
+    async deleteComment (parent, args, { prisma }, info) {
+        return prisma.mutation.deleteComment({
+            where: {
+                id: args.id
+            }
+        }, info)
     },
 
-    async updateComment (parent, args, { prisma, pubsub }, info) {
-
+    async updateComment (parent, args, { prisma }, info) {
+        return prisma.mutation.updateComment({
+            where: {
+                id: args.id
+            },
+            data: args.data
+        }, info)
     }
 }
 
