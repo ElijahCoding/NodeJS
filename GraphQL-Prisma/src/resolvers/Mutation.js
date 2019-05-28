@@ -2,22 +2,10 @@ import uuidv4 from 'uuid/v1'
 
 const Mutation = {
     async createUser (parent, args, { prisma }, info) {
-        const emailTaken = await prisma.exists.User({ email: args.data.email })
-
-        if (emailTaken) {
-            throw new Error('Email taken')
-        }
-
         return prisma.mutation.createUser({ data: args.data }, info)
     },
 
     async deleteUser (parent, args, { prisma }, info) {
-        const userExists = await prisma.exists.User({ id: args.id })
-
-        if (!userExists) {
-            throw new Error('User not found')
-        }
-
         return prisma.mutation.deleteUser({
             where: {
                 id: args.id
@@ -26,15 +14,31 @@ const Mutation = {
     },
 
     async updateUser (parent, args, { prisma }, info) {
-
+        return prisma.mutation.updateUser({
+            where: {
+                id: args.id
+            },
+            data: args.data
+        }, info)
     },
 
     async createPost (parent, args, { prisma, pubsub }, info) {
-
+        return prisma.mutaion.createPost({
+            data: {
+                title: args.data.title,
+                body: args.data.body,
+                published: args.data.published,
+                author: {
+                    connect: {
+                        id: args.data.author
+                    }
+                }
+            }
+        }, info)
     },
 
     async deletePost (parent, args, { prisma, pubsub }, info) {
-
+        
     },
 
     async updatePost (parent, args, { prisma }, info) {
