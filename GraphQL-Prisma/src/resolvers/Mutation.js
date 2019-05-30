@@ -46,9 +46,11 @@ const Mutation = {
     },
 
     async deleteUser (parent, args, { prisma }, info) {
+        const userId = getUserId(request)
+
         return prisma.mutation.deleteUser({
             where: {
-                id: args.id
+                id: userId
             }
         }, info)
     },
@@ -81,7 +83,20 @@ const Mutation = {
         }, info)
     },
 
-    async deletePost (parent, args, { prisma, pubsub }, info) {
+    async deletePost (parent, args, { prisma, request }, info) {
+        const userId = getUserId(request)
+
+        const postExists = await prisma.exists.Post({
+            id: args.id,
+            author: {
+                id: userId
+            }
+        })
+
+        if (!postExists) {
+            throw new Error('Unable to delete post')
+        }
+
         return prisma.mutation.deletePost({
             where: {
                 id: args.id
