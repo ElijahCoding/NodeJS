@@ -39,7 +39,8 @@ input UpdateUserInput {
 }
 
 input LoginUserInput {
-    
+    email: String!
+    password: String!
 }
 
 input CreatePostInput {
