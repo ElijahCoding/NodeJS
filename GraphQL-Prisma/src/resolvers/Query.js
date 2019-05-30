@@ -59,6 +59,16 @@ const Query = {
 
     comments (parent, args, { prisma }, info) {
         return prisma.query.comments(null, info)
+    },
+
+    me (parent, args, { prisma, request }, info) {
+        const userId = getUserId(request)
+
+        return prisma.query.user({
+            where: {
+                id: userId
+            }
+        })
     }
 }
 
