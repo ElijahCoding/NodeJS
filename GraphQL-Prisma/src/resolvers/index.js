@@ -6,7 +6,7 @@ import User from './User'
 import Post from './Post'
 import Comment from './Comment'
 
-const resovlers = {
+const resolvers = {
     Query,
     Mutation,
     Subscription,
@@ -15,4 +15,6 @@ const resovlers = {
     Comment
 }
 
-export { resovlers }
+const fragmentReplacements = extractFragmentReplacements(resolvers)
+
+export { resolvers, fragmentReplacements }

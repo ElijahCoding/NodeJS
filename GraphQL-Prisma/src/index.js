@@ -1,5 +1,5 @@
 import { GraphQLServer } from 'graphql-yoga'
-import { resolvers } from './resolvers'
+import { resolvers, fragmentReplacements } from './resolvers/index'
 import prisma from './prisma'
 
 const server = new GraphQLServer({
@@ -10,7 +10,8 @@ const server = new GraphQLServer({
             prisma,
             request
         }
-    }
+    },
+    fragmentReplacements
 })
 
 server.start(() => console.log('Server is running on localhost:4000'))
