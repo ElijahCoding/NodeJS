@@ -4,7 +4,11 @@
             <div class="column is-half">
                 <h1 class="title">Sign up</h1>
 
-                <form action="#">
+                <div class="notification is-danger" v-if="error">
+                    {{ error }}
+                </div>
+
+                <form action="#" @submit.prevent="submit">
                     <div class="field">
                         <label class="label">Name</label>
                         <div class="control">
@@ -12,6 +16,7 @@
                                 class="input"
                                 type="text"
                                 placeholder="e.g. Elijah"
+                                v-model="form.name"
                             >
                         </div>
                     </div>
@@ -23,6 +28,7 @@
                                 class="input"
                                 type="text"
                                 placeholder="e.g. test@test.com"
+                                v-model="form.email"
                             >
                         </div>
                     </div>
@@ -33,6 +39,7 @@
                             <input
                                 class="input"
                                 type="password"
+                                v-model="form.password"
                             >
                         </div>
                     </div>
@@ -45,3 +52,38 @@
         </div>
     </div>
 </template>
+
+<script>
+    import firebase from 'firebase'
+
+    export default {
+        data () {
+            return {
+                form: {
+                    name: '',
+                    email: '',
+                    password: '',
+                },
+
+                error: null
+            }
+        },
+
+        methods: {
+            submit () {
+                firebase.auth().createUserWithEmailAndPassword(
+                    this.form.email,
+                    this.form.password
+                ).then(data => {
+                    data.user.updateProfile({
+                        displayName: this.form.name
+                    }).then(() => {
+                        alert(1)
+                    })
+                }).catch(e => {
+                    this.error = e.message
+                })
+            }
+        }
+    }
+</script>
