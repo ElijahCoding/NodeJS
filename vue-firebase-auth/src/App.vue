@@ -1,9 +1,16 @@
 <template>
   <div id="app">
-    <router-view/>
+      <TheNavigation />
+      <router-view/>
   </div>
 </template>
 
-<style lang="scss">
+<script>
+    import TheNavigation from '@/components/globals/TheNavigation'
 
-</style>
+    export default {
+        components: {
+            TheNavigation
+        }
+    }
+</script>
