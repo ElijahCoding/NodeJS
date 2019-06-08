@@ -14,18 +14,20 @@
 
         <div class="navbar-menu">
             <div class="navbar-end">
-                <div class="navbar-item">
-                    User
-                </div>
-
-                <div class="navbar-item">
-                    <div class="buttons">
-                        <a href="#" class="button is-light">
-                            Sign out
-                        </a>
+                <template v-if="user.loggedIn">
+                    <div class="navbar-item">
+                        {{ user.data.displayName }}
                     </div>
-                </div>
-                <div class="navbar-item">
+
+                    <div class="navbar-item">
+                        <div class="buttons">
+                            <a @click.prevent="signOut" href="#" class="button is-light">
+                                Sign out
+                            </a>
+                        </div>
+                    </div>
+                </template>
+                <div class="navbar-item" v-else>
                     <div class="buttons">
                         <router-link :to="{ name: 'signup' }" class="button is-primary">
                             <strong>Sign up</strong>
@@ -41,7 +43,26 @@
 </template>
 
 <script>
-    
+    import { mapGetters } from 'vuex'
+    import firebase from 'firebase'
+
+    export default {
+        computed: {
+            ...mapGetters({
+                user: 'user'
+            })
+        },
+
+        methods: {
+            signOut () {
+                firebase.auth().signOut().then(() => {
+                    this.$router.replace({
+                        name: 'home'
+                    })
+                })
+            }
+        }
+    }
 </script>
 
 <style>
