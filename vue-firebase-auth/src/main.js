@@ -19,6 +19,9 @@ firebase.initializeApp({
     appId: "1:9129366464:web:21bc8a33cb3eb5d5"
 })
 
+firebase.auth().onAuthStateChanged(user => {
+    console.log(user);
+})
 
 new Vue({
   router,
