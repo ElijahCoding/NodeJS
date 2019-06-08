@@ -20,11 +20,11 @@ firebase.initializeApp({
 })
 
 firebase.auth().onAuthStateChanged(user => {
-    console.log(user);
-})
+    store.dispatch('fetchUser', user)
 
-new Vue({
-  router,
-  store,
-  render: h => h(App)
-}).$mount('#app')
+    new Vue({
+      router,
+      store,
+      render: h => h(App)
+    }).$mount('#app')
+})
