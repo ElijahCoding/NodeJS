@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
+import store from './store'
 
 import Home from './views/Home.vue'
 import SignUp from './views/SignUp.vue'
@@ -8,7 +9,7 @@ import Dashboard from './views/Dashboard.vue'
 
 Vue.use(Router)
 
-export default new Router({
+const router = new Router({
   mode: 'history',
   base: process.env.BASE_URL,
   routes: [
@@ -20,7 +21,10 @@ export default new Router({
     {
       path: '/dashboard',
       name: 'dashboard',
-      component: Dashboard
+      component: Dashboard,
+      meta: {
+          auth: true
+      }
     },
     {
       path: '/signup',
@@ -34,3 +38,17 @@ export default new Router({
     }
   ]
 })
+
+router.beforeEach((to, from, next) => {
+    if (!store.getters.user.loggedIn && to.meta.auth) {
+        next({
+            name: 'signin',
+            query: {
+                redirect: to.fullPath
+            }
+        })
+    }
+    next();
+})
+
+export default router

@@ -64,7 +64,10 @@
                     this.form.password
                 ).then(() => {
                     this.$router.replace({
-                        name: 'home'
+                        name: 'home',
+                        query: {
+                            
+                        }
                     })
                 }).catch(e => {
                     this.error = e.message
