@@ -16,8 +16,21 @@
                                 class="input"
                                 type="text"
                                 placeholder="e.g. test@test.com"
-                                v-model="form.email"
+                                v-model.trim="$v.form.email.$model"
+                                :class="{
+                                    'is-danger': $v.form.email.$error
+                                }"
                             >
+
+                            <template v-if="$v.form.email.$error">
+                                <p class="help is-danger" v-if="!$v.form.email.required">
+                                    Email is required
+                                </p>
+
+                                <p class="help is-danger" v-if="!$v.form.email.email">
+                                    Email must be valid
+                                </p>
+                            </template>
                         </div>
                     </div>
 
@@ -27,8 +40,17 @@
                             <input
                                 class="input"
                                 type="password"
-                                v-model="form.password"
+                                v-model.trim="$v.form.password.$model"
+                                :class="{
+                                    'is-danger': $v.form.password.$error
+                                }"
                             >
+
+                            <template v-if="$v.form.password.$error">
+                                <p class="help is-danger" v-if="!$v.form.password.required">
+                                    Password is required
+                                </p>
+                            </template>
                         </div>
                     </div>
 
@@ -57,8 +79,26 @@
             }
         },
 
+        validations: {
+            form: {
+                email: {
+                    required,
+                    email
+                },
+                password: {
+                    required
+                }
+            }
+        },
+
         methods: {
             submit () {
+                this.$v.$touch()
+
+                if (this.$v.$invalid) {
+                    return
+                }
+
                 firebase.auth().signInWithEmailAndPassword(
                     this.form.email,
                     this.form.password
