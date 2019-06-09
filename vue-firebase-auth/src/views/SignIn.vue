@@ -63,11 +63,8 @@
                     this.form.email,
                     this.form.password
                 ).then(() => {
-                    this.$router.replace({
-                        name: 'home',
-                        query: {
-                            
-                        }
+                    this.$router.replace(this.$route.query.redirect || {
+                        name: 'home'
                     })
                 }).catch(e => {
                     this.error = e.message

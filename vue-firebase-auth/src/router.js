@@ -29,12 +29,18 @@ const router = new Router({
     {
       path: '/signup',
       name: 'signup',
-      component: SignUp
+      component: SignUp,
+      meta: {
+          guest: true
+      }
     },
     {
       path: '/signin',
       name: 'signin',
-      component: SignIn
+      component: SignIn,
+      meta: {
+          guest: true
+      }
     }
   ]
 })
@@ -46,6 +52,12 @@ router.beforeEach((to, from, next) => {
             query: {
                 redirect: to.fullPath
             }
+        })
+    }
+
+    if (store.getters.user.loggedIn && to.meta.guest) {
+        next({
+            name: 'home'
         })
     }
     next();
