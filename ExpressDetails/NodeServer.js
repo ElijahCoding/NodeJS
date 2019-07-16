@@ -13,6 +13,11 @@ const server = http.createServer((req, res) => {
         const image = fs.readFileSync('node.png');
         res.write(image);
         res.end();
+    } else if (req.url === '/styles.css') {
+        res.writeHead(200, { 'content-type': 'text/css' });
+        const styles = fs.readFileSync('styles.css');
+        res.write(styles);
+        res.end();
     } else {
        res.writeHead(404, { 'content-type': 'text/html' });
        res.write('<h4>Error</h4>');
