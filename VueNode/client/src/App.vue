@@ -34,6 +34,30 @@
   </div>
 </template>
 
+<script>
+    import { EventBus } from './event-bus';
+
+    export default {
+        data() {
+            return {
+                isAdmin: false,
+                isAuthenticated: false
+            };
+        },
+
+        created() {
+            EventBus.$on('login', this.login);
+        },
+
+        methods: {
+            login (data) {
+              // token
+              // user info
+            }
+        }
+    }
+</script>
+
 <style>
     #page-content-container {
       margin-top: 60px;
