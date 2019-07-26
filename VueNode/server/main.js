@@ -3,6 +3,7 @@ const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const cors = require('cors');
 const config = require('./config');
+const basicRoutes = require('./routes/basic');
 
 module.exports = {
     start () {
@@ -13,7 +14,7 @@ module.exports = {
         app.use(bodyParser.json());
         app.use(cors());
 
-        app.get('/', (req, res) => res.send('hello world'));
+        app.use(basicRoutes);
 
         app.listen(3000, () => {
             console.log('Listening at http://localhost:3000');
