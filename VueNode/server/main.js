@@ -4,6 +4,7 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 const config = require('./config');
 const basicRoutes = require('./routes/basic');
+const apiRoutes = require('./routes/api');
 
 module.exports = {
     start () {
@@ -15,6 +16,7 @@ module.exports = {
         app.use(cors());
 
         app.use(basicRoutes);
+        app.use('/api', apiRoutes);
 
         app.listen(3000, () => {
             console.log('Listening at http://localhost:3000');
