@@ -12,13 +12,15 @@
                 <button class="btn btn-primary" :disabled="!email || !password">Login</button>
             </div>
             <div class="form-group text-danger" v-show="error">
-                {{error}}
+                {{ error }}
             </div>
         </form>
     </div>
 </template>
 
 <script>
+    import api from '../api';
+
     export default {
         data() {
             return {
@@ -27,8 +29,17 @@
                 error: ''
             };
         },
+
         methods: {
             login() {
+                api.authenticate({
+                    email: this.email,
+                    password: this.password
+                }).then(data => {
+                    EventBus.$emit('login', data);
+                }).catch(err => {
+                    this.error = 'There was an issue logging in.';
+                });
             }
         }
     }
