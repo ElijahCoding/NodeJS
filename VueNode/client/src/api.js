@@ -10,5 +10,11 @@ export default {
         let url = buildUrl('login');
 
         return axios.post(url, credentials).then(res => res.data);
+    },
+
+    registerUser (credentials) {
+        let url = buildUrl('register');
+
+        return axios.post(url, credentials).then(res => res.data);
     }
 }
