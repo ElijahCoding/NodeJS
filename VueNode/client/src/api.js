@@ -5,7 +5,7 @@ function buildUrl(path) {
     return `${apiUrl}${path}`;
 }
 
-module.exports = {
+export default {
     authenticate (credentials) {
         let url = buildUrl('login');
 

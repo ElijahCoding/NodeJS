@@ -51,9 +51,25 @@
 
         methods: {
             login (data) {
+                // token
+                // user info
+                this.error = '';
+                localStorage.setItem('token', data.token);
+                localStorage.setItem('user', JSON.stringify(data.user));
+                this.isAuthenticated = true;
+                this.isAdmin = data.user.isAdmin;
+                this.$router.push('/about');
+          },
+
+          logout (data) {
               // token
               // user info
-            }
+              localStorage.removeItem('token');
+              localStorage.removeItem('user');
+              this.isAuthenticated = false;
+              this.isAdmin = false;
+              this.$router.push('/');
+          }
         }
     }
 </script>

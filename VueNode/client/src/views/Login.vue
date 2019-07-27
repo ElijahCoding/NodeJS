@@ -20,6 +20,7 @@
 
 <script>
     import api from '../api';
+    import { EventBus } from '../event-bus';
 
     export default {
         data() {
