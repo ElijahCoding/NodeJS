@@ -4,8 +4,8 @@ const Schema = mongoose.Schema;
 const CurrencySchema = Schema({
     ticker: {
         type: String,
-        unique: true,
-        index: true
+        // unique: true,
+        // index: true
     },
     name: String,
     apiURL: String
